@@ -6,6 +6,7 @@ import axios from 'axios';
 import Home from './Home';
 import PizzaForm from './PizzaForm';
 import schema from './formSchema';
+import Pizza from './Pizza';
 
 const initialFormValues = {
   name: '',
@@ -30,34 +31,42 @@ const initialFormErrors = {
 const App = () => {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
-  const [pizzas, setPizza] = useState([]);
+  const [pizzas, setPizzas] = useState([]);
+  
+
+  const getPizzas = () => {
+    axios.get('https://reqres.in/api/orders')
+      .then(res => {
+        setPizzas(res.data);
+      })
+      .catch(err => console.error(err))
+  }
+
+  const sendPizza = newPizza => {
+    axios.post('https://reqres.in/api/orders', newPizza)
+      .then(res => {
+        console.log(newPizza);
+        setPizzas(res.data, ...pizzas)
+        setFormValues(initialFormValues)
+        setFormErrors(initialFormErrors)
+      })
+      .catch(err => console.error(err));
+  }
 
   const formSubmit = () => {
     const newPizza = {
       name: formValues.name.trim(),
       size: formValues.size.trim(),
-      topping1: formValues.pepperoni,
-      topping2: formValues.ham,
-      topping3: formValues.sausage,
-      topping4: formValues.peppers,
+      // topping1: formValues.pepperoni,
+      // topping2: formValues.ham,
+      // topping3: formValues.sausage,
+      // topping4: formValues.peppers,
+      toppings: ['pepperoni', 'ham', 'sausage', 'peppers'].filter(topping => formValues[topping]),
       special: formValues.instructions.trim(),
     }
-    axios.post('https://reqres.in/api/orders', newPizza)
-      .then(res => {
-        console.log(newPizza);
-        setPizza(res.data, ...pizzas)
-        setFormValues(initialFormValues)
-        setFormErrors(initialFormErrors)
-      })
-      .catch(err => console.error(err));
+    sendPizza(newPizza);
     }
     
-    // useEffect(() => {
-    //   axios.get('https://reqres.in/api/orders')
-    //     .then(res => setPizza(res.data))
-    // }, [])
-
-
   const validate = (name ,value) => {
     yup.reach(schema, name)
       .validate(value)
@@ -72,6 +81,10 @@ const App = () => {
       [name] : value
     })
   }
+
+  useEffect(() => {
+    getPizzas()
+  },[])
 
   return (
     <>
@@ -90,19 +103,18 @@ const App = () => {
         submit={formSubmit}
         errors={formErrors}
         />
-      {
-        pizzas.map(pizza => {
-          return (
-            <Pizza orders={pizza}/>
-          )
-        })
-      }
       </Route>
       <Route path='/'>
         <Home />
       </Route>
     </Switch>
-
+    {/* {
+      pizzas.map(pizza => {
+        return (
+        <Pizza key={pizza.id} orders={pizza}/>
+        )
+      })
+    }  */}
     </>
   );
 };
