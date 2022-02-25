@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Link, Switch } from 'react-router-dom';
 
+import Home from './Home';
 
 const App = () => {
   return (
@@ -12,9 +13,15 @@ const App = () => {
           <Link to='/pizza'>Order</Link>
         </div>
     </nav>
-      <p>You can remove this code and create your own header</p>
-   
+    <Switch>
+      <Route path={'/pizza'}>
+        {/* <Pizza></Pizza> */}
+      </Route>
+      <Route path='/'>
+        <Home />
+      </Route>
     </Switch>
+
     </>
   );
 };
