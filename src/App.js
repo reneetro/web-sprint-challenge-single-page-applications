@@ -1,9 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Link, Switch } from 'react-router-dom';
 
 import Home from './Home';
+import PizzaForm from './PizzaForm'
+
+const initialFormValues = {
+  name: '',
+  size: '',
+}
 
 const App = () => {
+  const [formValues, setFormValues] = useState(initialFormValues);
+
+  const formSubmit = () => {
+    const newPizza = {
+      name: formValues.name.trim(),
+      size: formValues.size.trim(),
+    }
+  }
+
+  const inputChange = (name, value) => {
+    console.log(name, value);
+    setFormValues({
+      ...formValues,
+      [name] : value
+    })
+  }
+
   return (
     <>
     <nav>
@@ -15,7 +38,12 @@ const App = () => {
     </nav>
     <Switch>
       <Route path={'/pizza'}>
-        {/* <Pizza></Pizza> */}
+        <PizzaForm
+        values={formValues}
+        change={inputChange}
+        submit={formSubmit}
+        />
+  
       </Route>
       <Route path='/'>
         <Home />
