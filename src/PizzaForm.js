@@ -73,8 +73,17 @@ export default function PizzaForm(props) {
                         onChange={onChange}
                     />
                 </label>
+                <label>Special Instructions
+                    <textarea
+                        id='special-text' 
+                        type='text'
+                        name='instructions'
+                        value={values.instructions}
+                        onChange={onChange}
+                    />
+                </label>
             </div>
-                <button>Submit Order</button>
+                <button id = 'order-button'>Add to Order</button>
             </div>
         </form>
     )

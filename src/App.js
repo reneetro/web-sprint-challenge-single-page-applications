@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Link, Switch } from 'react-router-dom';
 import * as yup from 'yup';
+import axios from 'axios';
 
 import Home from './Home';
 import PizzaForm from './PizzaForm';
@@ -12,7 +13,8 @@ const initialFormValues = {
   pepperoni: false,
   ham: false,
   sausage: false,
-  peppers: false
+  peppers: false,
+  instructions: ''
 }
 
 const initialFormErrors = {
@@ -21,20 +23,40 @@ const initialFormErrors = {
   pepperoni: '',
   ham: '',
   sausage: '',
-  peppers: ''
+  peppers: '',
+  instructions: ''
 }
 
 const App = () => {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
+  const [pizzas, setPizza] = useState([]);
 
   const formSubmit = () => {
     const newPizza = {
       name: formValues.name.trim(),
       size: formValues.size.trim(),
-      toppings: formValues.toppings
+      topping1: formValues.pepperoni,
+      topping2: formValues.ham,
+      topping3: formValues.sausage,
+      topping4: formValues.peppers,
+      special: formValues.instructions.trim(),
     }
-  }
+    axios.post('https://reqres.in/api/orders', newPizza)
+      .then(res => {
+        console.log(newPizza);
+        setPizza(res.data, ...pizzas)
+        setFormValues(initialFormValues)
+        setFormErrors(initialFormErrors)
+      })
+      .catch(err => console.error(err));
+    }
+    
+    // useEffect(() => {
+    //   axios.get('https://reqres.in/api/orders')
+    //     .then(res => setPizza(res.data))
+    // }, [])
+
 
   const validate = (name ,value) => {
     yup.reach(schema, name)
@@ -68,7 +90,13 @@ const App = () => {
         submit={formSubmit}
         errors={formErrors}
         />
-  
+      {
+        pizzas.map(pizza => {
+          return (
+            <Pizza orders={pizza}/>
+          )
+        })
+      }
       </Route>
       <Route path='/'>
         <Home />
