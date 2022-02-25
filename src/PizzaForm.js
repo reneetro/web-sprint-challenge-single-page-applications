@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function PizzaForm(props) {
-    const { values, submit, change, } = props;
+    const { values, submit, change, errors } = props;
 
     const onSubmit = evt => {
         evt.preventDefault();
@@ -18,6 +18,11 @@ export default function PizzaForm(props) {
         <form id='pizza-form' onSubmit={onSubmit}>
             <h2>Build Your Own Pizza!</h2>
             <div className='pizza-inputs'>
+                <div>
+                    <p>{errors.name}</p>
+                    <p>{errors.size}</p>
+                </div>
+
                 <label>Name
                     <input
                         type='text'
