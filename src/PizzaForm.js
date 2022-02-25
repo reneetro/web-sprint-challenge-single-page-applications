@@ -10,7 +10,7 @@ export default function PizzaForm(props) {
 
     const onChange = evt => {
         const { name, value, type, checked } = evt.target;
-        const valueToUse = type === 'checkbox' ? checked : value
+        const valueToUse = type === 'checkbox' ? checked : value;
         change(name, valueToUse);
     }
 
@@ -40,6 +40,40 @@ export default function PizzaForm(props) {
                         <option value='large'>Large</option>
                     </select>
                 </label>
+            <div className='toppings'>
+                <label>Pepperoni
+                    <input 
+                        type='checkbox'
+                        name='pepperoni'
+                        checked={values.pepperoni}
+                        onChange={onChange}
+                    />
+                </label>
+                <label>Ham
+                    <input 
+                        type='checkbox'
+                        name='ham'
+                        checked={values.ham}
+                        onChange={onChange}
+                    />
+                </label>
+                <label>Sausage
+                    <input 
+                        type='checkbox'
+                        name='sausage'
+                        checked={values.sausage}
+                        onChange={onChange}
+                    />
+                </label>
+                <label>Peppers
+                    <input 
+                        type='checkbox'
+                        name='peppers'
+                        checked={values.peppers}
+                        onChange={onChange}
+                    />
+                </label>
+            </div>
                 <button>Submit Order</button>
             </div>
         </form>

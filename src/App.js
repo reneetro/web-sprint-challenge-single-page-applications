@@ -9,11 +9,19 @@ import schema from './formSchema';
 const initialFormValues = {
   name: '',
   size: '',
+  pepperoni: false,
+  ham: false,
+  sausage: false,
+  peppers: false
 }
 
 const initialFormErrors = {
   name: '',
-  size: ''
+  size: '',
+  pepperoni: '',
+  ham: '',
+  sausage: '',
+  peppers: ''
 }
 
 const App = () => {
@@ -24,6 +32,7 @@ const App = () => {
     const newPizza = {
       name: formValues.name.trim(),
       size: formValues.size.trim(),
+      toppings: formValues.toppings
     }
   }
 
