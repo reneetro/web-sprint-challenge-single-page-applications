@@ -1,7 +1,14 @@
 import React from 'react';
 
+
 export default function PizzaForm(props) {
-    const { values, submit, change, errors } = props;
+    const { 
+        values, 
+        submit, 
+        change, 
+        errors, 
+        disabled 
+    } = props;
 
     const onSubmit = evt => {
         evt.preventDefault();
@@ -18,12 +25,12 @@ export default function PizzaForm(props) {
         <form id='pizza-form' onSubmit={onSubmit}>
             <h2>Build Your Own Pizza!</h2>
             <div className='pizza-inputs'>
-                <div>
+                <div className = 'errors'>
                     <p>{errors.name}</p>
                     <p>{errors.size}</p>
                 </div>
 
-                <label>Name
+                <label>Name :
                     <input
                         type='text'
                         name='name'
@@ -32,7 +39,7 @@ export default function PizzaForm(props) {
                         onChange={onChange}
                     />
                 </label>
-                <label>Size
+                <label>Size :
                     <select 
                     onChange={onChange} 
                     value ={values.size} 
@@ -46,6 +53,7 @@ export default function PizzaForm(props) {
                     </select>
                 </label>
             <div className='toppings'>
+                <h3>Toppings:</h3>
                 <label>Pepperoni
                     <input 
                         type='checkbox'
@@ -78,6 +86,8 @@ export default function PizzaForm(props) {
                         onChange={onChange}
                     />
                 </label>
+                </div>
+                <div className = 'instructions'>
                 <label>Special Instructions
                     <textarea
                         id='special-text' 
@@ -87,9 +97,9 @@ export default function PizzaForm(props) {
                         onChange={onChange}
                     />
                 </label>
+                </div>
             </div>
-                <button id = 'order-button'>Add to Order</button>
-            </div>
+                <button id = 'order-button' disabled={disabled}>Add to Order</button>
         </form>
     )
 }

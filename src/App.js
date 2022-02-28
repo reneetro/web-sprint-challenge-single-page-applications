@@ -3,6 +3,7 @@ import { Route, Link, Switch } from 'react-router-dom';
 import * as yup from 'yup';
 import axios from 'axios';
 
+
 import Home from './Home';
 import PizzaForm from './PizzaForm';
 import schema from './formSchema';
@@ -30,6 +31,7 @@ const App = () => {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [pizzas, setPizzas] = useState(initialPizzas);
+  const [disabled, setDisabled] = useState(true);
   
 
   const sendPizza = newPizza => {
@@ -75,6 +77,10 @@ const App = () => {
   //   getPizzas()
   // },[])
 
+  useEffect(() => {
+    schema.isValid(formValues).then(valid => setDisabled(!valid));
+  }, [formValues])
+
   return (
     <>
     <nav>
@@ -91,6 +97,7 @@ const App = () => {
         change={inputChange}
         submit={formSubmit}
         errors={formErrors}
+        disabled={disabled}
         />
       </Route>
       <Route path='/'>
