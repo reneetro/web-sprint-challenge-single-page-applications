@@ -32,20 +32,10 @@ const App = () => {
   const [pizzas, setPizzas] = useState(initialPizzas);
   
 
-  // const getPizzas = () => {
-  //   axios.get('https://reqres.in/api/orders')
-  //     .then(res => {
-  //       setPizzas(res.data);
-  //     })
-  //     .catch(err => console.error(err))
-  // }
-
   const sendPizza = newPizza => {
     axios.post('https://reqres.in/api/orders', newPizza)
       .then(res => {
         setPizzas([res.data, ...pizzas])
-        console.log('data', res.data)
-        console.log('pizzas', pizzas);
         setFormValues(initialFormValues)
         
       })
@@ -108,9 +98,9 @@ const App = () => {
       </Route>
     </Switch>
     {
-      pizzas.map(pizza => {
+      pizzas.map((pizza, idx) => {
         return (
-        <Pizza key={pizza.id} orders={pizza}/>
+        <Pizza key={idx} orders={pizza}/>
         )
       })
     } 
